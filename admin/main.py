@@ -21,7 +21,7 @@ for x in recipes:
     lst.append([sg.Text(nme),sg.Text(nme2,key=f"-{x}_stock-"),sg.InputText("",size=(10), key=f"{x}_stock"),sg.Text(nme3),sg.Text(nme1,key=f"-{x}_price-"),sg.InputText(size=(10), key=f"{x}_price")])
 
 layout = [    
-    [sg.Text('CANTEEN ADMIN PANEL', text_color="Red",justification="5")],
+    [sg.Text('CANTEEN ADMIN PANEL', text_color="Blue",justification="5")],
     [sg.Text("Product\t\tQuantity\t\tNew Quantity\t\tPrice\t\tNew Price")]
 ]
 for x in lst:
