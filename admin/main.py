@@ -2,7 +2,7 @@ import secrets
 import string
 from database.func import add_recipe,list_recipes,update_recipe_stock,update_recipe_price,remove_recipe,is_recipe,get_tokens
 import PySimpleGUI as sg
-sg.theme("DarkGreen")
+sg.theme("DarkAmber")
 font = ("Helvetica", 13)
 sg.set_options(font=font)
 recipes={}
@@ -21,7 +21,7 @@ for x in recipes:
     lst.append([sg.Text(nme),sg.Text(nme2,key=f"-{x}_stock-"),sg.InputText("",size=(10), key=f"{x}_stock"),sg.Text(nme3),sg.Text(nme1,key=f"-{x}_price-"),sg.InputText(size=(10), key=f"{x}_price")])
 
 layout = [    
-    [sg.Text('CANTEEN ADMIN PANEL', text_color="Blue",justification="5")],
+    [sg.Text('CANTEEN ADMIN PANEL', text_color="DarkBlue",justification="5")],
     [sg.Text("Product\t\tQuantity\t\tNew Quantity\t\tPrice\t\tNew Price")]
 ]
 for x in lst:
@@ -66,7 +66,9 @@ while True:
             else:
                 add_recipe(values['prod_name'].capitalize(), values['prod_quan'], values['prod_price'],values['is_special'])
                 plain_receipes.append(values['prod_name'].capitalize())
+                recipes[values['prod_name'].capitalize()] = {"stock": values['prod_quan'], "price": values['prod_price']}
                 window[f"-msggg-"].update("Product added successfully")
+
     if event=="Remove Product":
         if is_recipe(values['prod_name'].capitalize()):
             remove_recipe(values['prod_name'].capitalize())
@@ -78,11 +80,11 @@ while True:
         print(values)
         for x in plain_receipes:
             if values[f"{x}_stock"]!='' or values[f"{x}_price"]!='':
+                window["-update-"].update("Update atleast one item.")
                 if values[f"{x}_stock"]!='':
                     if values[f"{x}_stock"].isdigit() ==False:
                         window[f"-update-"].update("Quantity and price should be a number")
                     else:
-                        
                         nme2=values.get(f"{x}_stock").ljust(24," ")
                         update_recipe_stock({x:values.get(f"{x}_stock")})
                         window[f"-{x}_stock-"].update(nme2)
