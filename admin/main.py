@@ -26,16 +26,17 @@ layout = [
 ]
 for x in lst:
     layout.append(x)
-layout.append([sg.Button('UPDATE STOCK')])
+
 layout.append([sg.Text(key='-update-', text_color="Red")])
 layout.append([sg.Text('Add/Remove Products', text_color="Red")])
 layout.append([sg.Text("Product\t\t\tQuantity\t\t\tPrice")])
 layout.append([sg.InputText(size=(10),key="prod_name"),sg.Text("\t"),sg.InputText(size=(10),key="prod_quan"),sg.Text("\t"),sg.InputText(size=(10),key="prod_price"),sg.Checkbox('is special?', default=False,key="is_special")])
 layout.append([sg.Button('Add Product'),sg.Text("  "),sg.Button('Remove Product')])
+layout.append([sg.Button('UPDATE STOCK')])
 layout.append([sg.Text(key='-msggg-', text_color="Red")])
 layout.append([sg.Button('View Orders')])
 layout.append([sg.Cancel()])
-window = sg.Window('CANTEEN ORDER SYSTEM', layout,icon=r'C:\Users\chsai\Desktop\folder_locker\enc.ico', size=(1000, 700))
+window = sg.Window('CANTEEN ORDER SYSTEM', layout,icon=r'C:\Users\chsai\Desktop\folder_locker\enc.ico', size=(1000, 650))
 while True:
     event, values = window.read()
     if event is None or event == 'Cancel':
@@ -51,7 +52,6 @@ while True:
         tokens=get_tokens()
         for x in tokens:
             my_order+=f"\n\nOrder Number: {num}\n"
-            my_order+=f"key: {x.get('key')}\n"
             for y in x.get("dict"):
                 my_order+=f"{y}     {x.get('dict').get(y)}\n"
             num+=1
@@ -79,7 +79,7 @@ while True:
     if event=="UPDATE STOCK":
         print(values)
         for x in plain_receipes:
-            if values[f"{x}_stock"]!='' or values[f"{x}_price"]!='':
+            if f"{x}_stock" in values and values[f"{x}_stock"] != '':
                 window["-update-"].update("Update atleast one item.")
                 if values[f"{x}_stock"]!='':
                     if values[f"{x}_stock"].isdigit() ==False:
